@@ -33,19 +33,30 @@ Reload postgres service
 ```
 # systemctl reload rh-postgresql10-postgresql
 ```
+
 ### Installing Grafana
-You can install Grafana directly on the oVirt Engine machine (this how it's done in oVirt 4.4) or on a separate machine. Following steps shows how you can install Grafana on a separate Oracle Linux 7 server. 
+You can install Grafana directly on the oVirt Engine machine (this is how it's done in oVirt 4.4) or on a separate machine. 
+Following steps shows how you can install Grafana on a separate Oracle Linux 7 server. 
+Note: Oracle provides Grafana in the OLCNE yum repository - you only need to install repository definition package to pickup Grafana and it's dependencies. 
 ```
+# yum install oraclelinux-release-el7
+# yum install oracle-olcne-release-el7
 # yum-config-manager --enable ol7_optional_latest ol7_olcne11
 # yum -y install grafana
 # systemctl enable --now grafana-server
 ```
-### Adding oVirt DWH database as Data Source in Grafana
-Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSources` and click on green `Add Data Source` button. Select PostgreSQL source and use the following settings:
-![Grafana Data Source](/images/ovirt-dwh-datasource.png)
 
-### Importing Dashboards from
+### Adding oVirt DWH database as Data Source in Grafana
+Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button. 
+Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP ):
+
+![Grafana oVirt DataSource](images/ovirt-dwh-datasource.png)
+
+### Importing Dashboards from oVirt 4.4
+Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards
+You can now import them in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
 ### Sources
 https://www.ovirt.org/documentation/data_warehouse_guide/#Allowing_Read_Only_Access_to_the_History_Database
+https://github.com/oVirt/ovirt-dwh/
 
