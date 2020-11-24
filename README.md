@@ -41,7 +41,7 @@ Note: Oracle provides Grafana in the OLCNE yum repository - you only need to ins
 # yum install oraclelinux-release-el7
 # yum install oracle-olcne-release-el7
 # yum-config-manager --enable ol7_optional_latest ol7_olcne11
-# yum y install grafana
+# yum install grafana
 # systemctl enable --now grafana-server
 ```
 
