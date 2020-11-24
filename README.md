@@ -8,7 +8,6 @@ Login to the oVirt engine 4.3 and create a user *"grafana"* with password *"graf
 # psql -U postgres -c "GRANT CONNECT ON DATABASE ovirt_engine_history TO grafana;"
 # psql -U postgres -c "GRANT USAGE ON SCHEMA public TO grafana;" ovirt_engine_history
 ```
-
 Generate the rest of the permissions that will be granted to the newly created user and save them to a file:
 ```
 # psql -U postgres -c "SELECT 'GRANT SELECT ON ' || relname || ' TO grafana;' FROM pg_class JOIN pg_namespace ON pg_namespace.oid = pg_class.relnamespace WHERE nspname = 'public' AND relkind IN ('r', 'v');" --pset=tuples_only=on  ovirt_engine_history > grant.sql
@@ -17,11 +16,11 @@ Use the file you created in the previous step to grant permissions to the newly 
 ```
 # psql -U postgres -f grant.sql ovirt_engine_history
 ```
-Remove the file you used to grant permissions to the newly created user:
+Remove the file you used to grant permissions:
 ```
 # rm grant.sql
 ```
-Exit the postgres user shell by pressing Ctrl+d
+Exit the postgres user shell by pressing `Ctrl+d`
 
 Add the following lines for the newly created user to /var/opt/rh/rh-postgresql10/lib/pgsql/data/pg_hba.conf preceding the line beginning local all all
 ```
@@ -42,7 +41,7 @@ Note: Oracle provides Grafana in the OLCNE yum repository - you only need to ins
 # yum install oraclelinux-release-el7
 # yum install oracle-olcne-release-el7
 # yum-config-manager --enable ol7_optional_latest ol7_olcne11
-# yum -y install grafana
+# yum y install grafana
 # systemctl enable --now grafana-server
 ```
 
@@ -55,6 +54,7 @@ Select **PostgreSQL** source and use the following settings (adjust the Host IP 
 
 ### Importing Dashboards from oVirt 4.4
 Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards
+
 You can now import them in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
 ### Testing the integration with ready to use Grafana Docker container
