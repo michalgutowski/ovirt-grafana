@@ -1,0 +1,981 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "The inventory dashboard displays reports with data for each data center ( hosts, configured vms, CPU, memory and disk usage )",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1593333987818,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 13,
+      "panels": [],
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays inventory reports with details for each data center.\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 11,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 9,
+      "title": "Data Centers Inventory",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays for each data center the number of hosts and configured vms",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 15,
+        "x": 0,
+        "y": 4
+      },
+      "id": 6,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 4,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Tag",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tag_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "",
+              "value": "Unknown"
+            }
+          ]
+        },
+        {
+          "alias": "Data Center",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Data Center Desc.",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_description",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Hosts",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "number_of_hosts",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Running VMs",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "num_of_running_vms",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Total Configured VMs",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "total_configured_vms",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of hosts and configured VMs \n-- in each data center\n\nSELECT\n    tag_name,\n    datacenter_name,\n    datacenter_description,\n    SUM ( number_of_hosts ) AS number_of_hosts,\n    SUM ( total_configured_vms ) AS total_configured_vms,\n    SUM ( num_of_running_vms ) AS num_of_running_vms \nFROM \n    (\n        SELECT\n            COALESCE ( tag_name, 'Unknown' ) AS tag_name,\n            datacenter_name,\n            datacenter_description,\n            COUNT( DISTINCT host_id ) AS number_of_hosts,\n            num_of_vms.num_of_running_vms,\n            num_of_vms.total_configured_vms\n        FROM  \n            v4_3_latest_configuration_datacenters\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_datacenters.datacenter_id =\n                        v4_3_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_relations\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_latest_tags_relations.entity_id\n                        AND v4_3_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_details\n                ON \n                    (\n                        v4_3_latest_tags_relations.parent_id =\n                        v4_3_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    vm_count.cluster_id,\n                    SUM \n                        (\n                            CASE\n                                WHEN vm_count.vm_status = 1\n                                    THEN vm_count.num_of_vms\n                                ELSE 0\n                            END\n                        ) AS num_of_running_vms,\n                    SUM ( vm_count.num_of_vms ) AS total_configured_vms\n                FROM \n                    (\n                        SELECT\n                            a.cluster_id AS cluster_id,\n                            hourly_daily.vm_status AS vm_status,\n                            COUNT ( DISTINCT a.vm_id ) AS num_of_vms\n                        FROM \n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS hourly_daily\n                            INNER JOIN v4_3_latest_configuration_vms a\n                                ON \n                                    (\n                                        a.vm_id =\n                                        hourly_daily.vm_id\n                                    )\n                        WHERE\n                            hourly_daily.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( history_id )\n                                        FROM \n                                            (\n                                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                                UNION\n                                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                                            ) AS b\n                                        GROUP BY vm_id\n                                    )\n                        GROUP BY a.cluster_id, hourly_daily.vm_status\n                    ) AS vm_count\n                GROUP BY cluster_id\n            ) AS num_of_vms\n                ON \n                    (\n\t\t                num_of_vms.cluster_id =\n\t\t                v4_3_latest_configuration_clusters.cluster_id\n                    )\n        WHERE v4_3_latest_configuration_datacenters.datacenter_id IN ($datacenter_id)\n        GROUP BY\n            tag_name,\n            datacenter_name,\n            datacenter_description,\n            num_of_vms.num_of_running_vms,\n            num_of_vms.total_configured_vms\n    ) AS dc\nGROUP BY\n    tag_name,\n    datacenter_name,\n    datacenter_description",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data Center Inventory (BR48)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays CPU usage and overcommit for each data center. ",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 5,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Tag",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tag_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "",
+              "value": "Unknown"
+            }
+          ]
+        },
+        {
+          "alias": "Data Center",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Data Center Desc.",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_description",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Total Hosts - CPU Cores",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "total_hosts_num_of_cpus",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Total VMs - CPU Cores",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "total_vms_cpu_cores",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Running VMS - CPU Cores",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "cpu_cores_running",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "CPUs Overcommit",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_over_commit",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Running VMS - CPU Cores vs. Total Hosts - CPU Cores",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_usage_ratio",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of CPU Cores, Physical Memory and disk usage\n-- for the vms in each data center.\n\nSELECT\n    tag_name,\n    datacenter_name,\n    datacenter_description,\n    SUM ( total_hosts_num_of_cpus) AS total_hosts_num_of_cpus,\n    SUM ( total_vms_cpu_cores ) AS total_vms_cpu_cores,\n    SUM ( cpu_cores_running ) AS cpu_cores_running,\n    SUM ( total_vms_cpu_cores ) / SUM ( total_hosts_num_of_cpus ) AS \"cpu_over_commit\",\n    SUM ( cpu_cores_running ) / SUM ( total_hosts_num_of_cpus ) AS \"cpu_usage_ratio\"\nFROM \n    (\n        SELECT\n            COALESCE ( tag_name, 'Unknown' ) AS tag_name,\n            datacenter_name,\n            datacenter_description,\n            SUM \n                ( \n                    COALESCE ( v4_3_latest_configuration_hosts.number_of_cores, 0 ) *\n                    COALESCE ( v4_3_latest_configuration_hosts.number_of_sockets, 0 ) \n                ) AS total_hosts_num_of_cpus,\n            cpu_memory_allocation.total_vms_cpu_cores,\n            cpu_memory_allocation.cpu_cores_running\n        FROM  \n            v4_3_latest_configuration_datacenters\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_datacenters.datacenter_id =\n                        v4_3_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_relations\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_latest_tags_relations.entity_id\n                        AND v4_3_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_details\n                ON \n                    (\n                        v4_3_latest_tags_relations.parent_id =\n                        v4_3_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    a.cluster_id,\n                    SUM \n                        ( \n                            COALESCE ( v4_3_configuration_history_vms.cpu_per_socket, 0 ) *\n                            COALESCE ( v4_3_configuration_history_vms.number_of_sockets, 0 ) \n                        ) AS total_vms_cpu_cores,\n                    SUM \n                        (\n                            CASE\n                                WHEN hourly_daily.vm_status = 1\n                                    THEN COALESCE ( v4_3_configuration_history_vms.cpu_per_socket, 0 ) * COALESCE ( v4_3_configuration_history_vms.number_of_sockets, 0 )\n                                ELSE 0\n                            END\n                        ) AS cpu_cores_running\n                FROM\n                    ( \n                        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                        UNION\n                        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                    ) AS hourly_daily\n                    INNER JOIN v4_3_configuration_history_vms\n                        ON \n                            (\n                                v4_3_configuration_history_vms.history_id =\n                                hourly_daily.vm_configuration_version\n                            )\n                    INNER JOIN v4_3_latest_configuration_vms a\n                        ON \n                            (\n                                a.vm_id =\n                                hourly_daily.vm_id\n                            )\n                WHERE\n                    hourly_daily.history_id \n                        IN \n                            (\n                                SELECT MAX ( history_id )\n                                FROM \n                                    (\n                                        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                        UNION\n                                        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                                    ) AS b\n                                GROUP BY vm_id\n                            )\n                GROUP BY a.cluster_id\n            ) AS cpu_memory_allocation\n                ON \n                    (\n                        cpu_memory_allocation.cluster_id =\n                        v4_3_latest_configuration_clusters.cluster_id\n                    )\n        WHERE v4_3_latest_configuration_datacenters.datacenter_id IN ($datacenter_id)\n        GROUP BY\n            tag_name,\n            datacenter_name,\n            datacenter_description,\n            cpu_memory_allocation.total_vms_cpu_cores,\n            cpu_memory_allocation.cpu_cores_running\n    ) AS dc\nGROUP BY\n    tag_name,\n    datacenter_name,\n    datacenter_description",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU Usage and Overcommit (BR48)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays memory usage and overcommit for each data center. ",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 4,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Tag",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tag_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "",
+              "value": "Unknown"
+            }
+          ]
+        },
+        {
+          "alias": "Data Center",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Data Center Desc.",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_description",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Total Hosts - Memory",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_hosts_mem",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Total VMs - Memory",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_vms_mem",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Running VMs - Memory",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "mem_running",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Memory Overcommit",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_over_commit",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Running VMs - Memory vs. Total Hosts - Memory",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_usage_ratio",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of CPU Cores, Physical Memory and disk usage\n-- for the vms in each data center.\n\nSELECT\n    tag_name,\n    datacenter_name,\n    datacenter_description,\n    SUM ( total_hosts_mem ) AS total_hosts_mem,\n    SUM ( total_vms_mem ) AS total_vms_mem,\n    SUM ( mem_running ) AS mem_running,\n    SUM ( total_vms_mem ) / SUM ( total_hosts_mem ) AS \"memory_over_commit\",\n    SUM ( mem_running ) / SUM ( total_hosts_mem ) AS \"memory_usage_ratio\"\nFROM \n    (\n        SELECT\n            COALESCE( tag_name, 'Unknown' ) AS tag_name,\n            datacenter_name,\n            datacenter_description,\n            ROUND ( CAST ( SUM ( COALESCE ( v4_3_latest_configuration_hosts.memory_size_mb, 0.00 ) ) AS FLOAT ) :: numeric / 1024, 2 ) AS total_hosts_mem,\n            cpu_memory_allocation.total_vms_mem,\n            cpu_memory_allocation.mem_running\n        FROM  \n            v4_3_latest_configuration_datacenters\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_datacenters.datacenter_id =\n                        v4_3_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_relations\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_latest_tags_relations.entity_id\n                        AND v4_3_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_details\n                ON \n                    (\n                        v4_3_latest_tags_relations.parent_id =\n                        v4_3_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    a.cluster_id,\n                    ROUND ( CAST ( SUM ( COALESCE ( v4_3_configuration_history_vms.memory_size_mb, 0.00 ) )  AS FLOAT ) :: numeric / 1024, 2 ) AS total_vms_mem,\n                    ROUND ( CAST ( SUM \n                        (\n                            CASE\n                                WHEN hourly_daily.vm_status = 1\n                                    THEN COALESCE ( v4_3_configuration_history_vms.memory_size_mb, 0.00 )\n                                ELSE 0.00\n                            END \n                        ) AS FLOAT ) :: numeric / 1024, 2 ) AS mem_running\n                FROM\n                    ( \n                        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                        UNION\n                        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                    ) AS hourly_daily\n                    INNER JOIN v4_3_configuration_history_vms\n                        ON \n                            (\n                                v4_3_configuration_history_vms.history_id =\n                                hourly_daily.vm_configuration_version\n                            )\n                    INNER JOIN v4_3_latest_configuration_vms a\n                        ON \n                            (\n                                a.vm_id =\n                                hourly_daily.vm_id\n                            )\n                WHERE\n                    hourly_daily.history_id \n                        IN \n                            (\n                                SELECT MAX ( history_id )\n                                FROM \n                                    ( \n                                        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                        UNION\n                                        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                                    ) AS b\n                                GROUP BY vm_id\n                            )\n                GROUP BY a.cluster_id\n            ) AS cpu_memory_allocation\n                ON \n                    (\n                        cpu_memory_allocation.cluster_id =\n                        v4_3_latest_configuration_clusters.cluster_id\n                    )\n        WHERE v4_3_latest_configuration_datacenters.datacenter_id IN ($datacenter_id)\n        GROUP BY\n            tag_name,\n            datacenter_name,\n            datacenter_description,\n            cpu_memory_allocation.total_vms_mem,\n            cpu_memory_allocation.mem_running\n    ) AS dc\nGROUP BY\n    tag_name,\n    datacenter_name,\n    datacenter_description",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Usage and Overcommit (BR48)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays disk usage and overcommit for each data center. ",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 7,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Tag",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "tag_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "",
+              "value": "Unknown"
+            }
+          ]
+        },
+        {
+          "alias": "Data Center",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Data Center Desc.",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_description",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Hosts Used Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "dc_used_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Available Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "dc_available_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Total Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "dc_total_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Allocated Disk Size to VMs",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vms_allocated_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "VMs Used Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_disk_actual_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Disk Overcommit",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "disk_over_commit",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "VMs Used Disk Size vs. Total Disk Size",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "disk_usage_ratio",
+          "thresholds": [
+            "0.85",
+            "1"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of CPU Cores, Physical Memory and disk usage\n-- for the vms in each data center.\n\nSELECT\n    tag_name,\n    datacenter_name,\n    datacenter_description,\n    dc_used_disk_size_gb,\n    dc_available_disk_size_gb ,\n    dc_total_disk_size_gb,\n    vms_allocated_disk_size_gb,\n    vm_disk_actual_size_gb,\n    vms_allocated_disk_size_gb/dc_total_disk_size_gb AS \"disk_over_commit\",\n    vm_disk_actual_size_gb/dc_total_disk_size_gb AS \"disk_usage_ratio\"\nFROM \n    (\n        SELECT\n            COALESCE( tag_name, 'Unknown' ) AS tag_name,\n            datacenter_name,\n            datacenter_description,\n            dc_storage.dc_used_disk_size_gb,\n            dc_storage.dc_available_disk_size_gb,\n            dc_storage.dc_total_disk_size_gb,\n            ROUND ( CAST ( vms_storage.vms_allocated_disk_size_gb  AS float ):: numeric, 2 ) AS vms_allocated_disk_size_gb,\n            ROUND ( CAST ( vms_storage.vm_disk_actual_size_gb AS FLOAT ) :: numeric, 2 ) AS vm_disk_actual_size_gb\n        FROM  \n            v4_3_latest_configuration_datacenters\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_datacenters.datacenter_id =\n                        v4_3_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_relations\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_latest_tags_relations.entity_id\n                        AND v4_3_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_3_latest_tags_details\n                ON \n                    (\n                        v4_3_latest_tags_relations.parent_id =\n                        v4_3_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    datacenter_id,\n                    SUM (hourly_daily.used_disk_size_gb) AS dc_used_disk_size_gb,\n                    SUM (hourly_daily.available_disk_size_gb) AS dc_available_disk_size_gb,\n                    SUM (hourly_daily.available_disk_size_gb + hourly_daily.used_disk_size_gb) AS dc_total_disk_size_gb\n                FROM \n                    v4_3_latest_configuration_storage_domains\n                    INNER JOIN v4_3_latest_map_datacenters_storage_domains\n                        ON \n                            (\n                                v4_3_latest_configuration_storage_domains.storage_domain_id =\n                                v4_3_latest_map_datacenters_storage_domains.storage_domain_id\n                            )\n                    LEFT OUTER JOIN \n                    (\n                        SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                        UNION\n                        SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n                    ) AS hourly_daily\n                        ON \n                            (\n                                v4_3_latest_configuration_storage_domains.storage_domain_id =\n                                hourly_daily.storage_domain_id\n                                AND hourly_daily.history_id \n                                    IN \n                                        (\n                                            SELECT MAX ( a.history_id )\n                                            FROM\n                                                (\n                                                    SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                                                    UNION\n                                                    SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n                                                ) AS a\n                                            GROUP BY a.storage_domain_id\n                                        )\n                            )\n                WHERE\n                    -- Here we filter by the \"Data\" storage type\n                    storage_domain_type IN ( 0, 1 )\n                GROUP BY datacenter_id\n            ) AS dc_storage\n                ON \n                    (\n                        dc_storage.datacenter_id =\n                        v4_3_latest_configuration_datacenters.datacenter_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    datacenter_id,\n                    SUM ( v4_3_latest_configuration_vms_disks.vm_disk_size_mb ) * 0.0009765625 AS vms_allocated_disk_size_gb,\n                    SUM ( hourly_daily.vm_disk_actual_size_mb ) * 0.0009765625 AS vm_disk_actual_size_gb\n                FROM \n                    v4_3_latest_configuration_storage_domains\n                    INNER JOIN v4_3_latest_map_datacenters_storage_domains\n                        ON \n                            (\n                                v4_3_latest_map_datacenters_storage_domains.storage_domain_id =\n                                v4_3_latest_configuration_storage_domains.storage_domain_id\n                            )\n                    INNER JOIN v4_3_latest_configuration_vms_disks\n                        ON \n                            (\n                                v4_3_latest_configuration_storage_domains.storage_domain_id =\n                                v4_3_latest_configuration_vms_disks.storage_domain_id\n                            )\n                    LEFT OUTER JOIN \n                    (\n                        SELECT * FROM v4_3_statistics_vms_disks_resources_usage_hourly\n                        UNION\n                        SELECT * FROM v4_3_statistics_vms_disks_resources_usage_daily\n                    ) AS hourly_daily\n                        ON \n                            (\n                                v4_3_latest_configuration_vms_disks.vm_disk_id =\n                                hourly_daily.vm_disk_id\n                                AND hourly_daily.history_id \n                                    IN \n                                        (\n                                            SELECT MAX ( a.history_id )\n                                            FROM \n                                                (\n                                                    SELECT * FROM v4_3_statistics_vms_disks_resources_usage_hourly\n                                                    UNION\n                                                    SELECT * FROM v4_3_statistics_vms_disks_resources_usage_daily\n                                                ) AS a\n                                            GROUP BY a.vm_disk_id\n                                        )\n                            )\n                WHERE\n                    -- Here we filter by the \"Data\" storage type\n                    storage_domain_type IN ( 0, 1 )\n                GROUP BY datacenter_id\n            ) AS vms_storage\n                ON \n                    (\n                        vms_storage.datacenter_id =\n                        v4_3_latest_configuration_datacenters.datacenter_id\n                    )\n        WHERE v4_3_latest_configuration_datacenters.datacenter_id IN ($datacenter_id)\n        GROUP BY\n            tag_name,\n            datacenter_name,\n            datacenter_description,\n            dc_storage.dc_used_disk_size_gb,\n            dc_storage.dc_available_disk_size_gb,\n            dc_storage.dc_total_disk_size_gb,\n            vms_storage.vms_allocated_disk_size_gb,\n            vms_storage.vm_disk_actual_size_gb\n    ) AS dc\nGROUP BY\n    tag_name,\n    datacenter_name,\n    datacenter_description,\n    dc_used_disk_size_gb,\n    dc_available_disk_size_gb,\n    dc_total_disk_size_gb,\n    vms_allocated_disk_size_gb,\n    vm_disk_actual_size_gb",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Disk Usage and Overcommit (BR48)",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "Host",
+    "VM",
+    "DC",
+    "CPU",
+    "Memory",
+    "Disk"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT  datacenter_name AS __text, datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Data Center",
+        "multi": true,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT  datacenter_name AS __text, datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Inventory Dashboard",
+  "uid": "InventoryDashboard",
+  "version": 1
+}
