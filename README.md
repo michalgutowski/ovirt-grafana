@@ -25,7 +25,7 @@ Exit the postgres user shell by pressing `Ctrl+d`
 Add the following lines for the newly created user to /var/opt/rh/rh-postgresql10/lib/pgsql/data/pg_hba.conf preceding the line beginning local all all
 ```
 host    ovirt_engine_history grafana 0.0.0.0/0               md5
-host    ovirt_engine_history grafana :0/0                    md5
+host    ovirt_engine_history grafana ::0/0                   md5
 ```
 
 Reload postgres service
