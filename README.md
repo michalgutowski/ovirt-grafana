@@ -1,4 +1,4 @@
-Following steps allow you to set up Grafana Monitoring for your oVirt 4.3 environment and use Grafana Dashboards from latest oVirt 4.4 on a previous release.
+Following steps allow you to set up Grafana Monitoring for your oVirt 4.3 environment and re-use Grafana Dashboards from latest oVirt 4.4 on a previous release.
 
 ### Allowing Grafana to connect to oVirt DWH database (Data Warehouse)
 Login to the oVirt engine 4.3 and create a user *"grafana"* with password *"grafana"* that will get a read-only access to the ovirt_engine_history database and will be able to use `public` schema
@@ -47,7 +47,8 @@ Note: Oracle provides Grafana in the OLCNE yum repository - you only need to ins
 ```
 
 ### Adding oVirt DWH database as Data Source in Grafana
-Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button. 
+Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button.
+
 Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP ):
 
 ![Grafana oVirt DataSource](images/ovirt-dwh-datasource.png)
@@ -56,7 +57,25 @@ Select **PostgreSQL** source and use the following settings (adjust the Host IP 
 Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards
 You can now import them in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
-### Sources
+### Testing the integration with ready to use Grafana Docker container
+If you would like to quickly test the integration you can use the grafana-container definition available in this repository.
+
+Just clone this repository to your server
+```
+$ git clone https://github.com/michalgutowski/ovirt-grafana
+$ cd ovirt-grafana
+```
+Edit the DataSource definition file and adjust the Host IP/URL address of you oVirt engine machine. 
+```
+$ vi grafana-container/provisioning/datasources/all.yml
+```
+Finally, build and run the container.
+```
+$ docker build -t grafana-container grafana-container
+$ docker run -d -p 3000:3000 grafana-container
+```
+
+#### Sources
 https://www.ovirt.org/documentation/data_warehouse_guide/#Allowing_Read_Only_Access_to_the_History_Database
 https://github.com/oVirt/ovirt-dwh/
 
