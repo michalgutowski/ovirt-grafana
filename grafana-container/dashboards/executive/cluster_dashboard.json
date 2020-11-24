@@ -1,0 +1,1619 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "The cluster dashboard displays the latest configurations, resources status and usages percent of the clusters entities.",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1589472284614,
+  "links": [],
+  "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 36,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### The cluster dashboard displays the latest configurations, resources status and usage percent of the clusters entities.\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 32,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 34,
+      "panels": [],
+      "title": "Reports",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 0,
+      "description": "Number of hosts in the cluster.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 4
+      },
+      "id": 2,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "host_count",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR3 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active hosts in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_3_latest_configuration_hosts.host_id ) AS host_count\nFROM \n    v4_3_latest_configuration_hosts\n    INNER JOIN v4_3_latest_configuration_vms\n        ON \n            (\n                v4_3_latest_configuration_hosts.cluster_id =\n                v4_3_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Number of Hosts (DR3)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 0,
+      "description": "Number of virtual machines in the cluster.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 3,
+        "y": 4
+      },
+      "id": 3,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "vm_count",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR3 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active vms in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_3_latest_configuration_vms.vm_id ) AS vm_count\nFROM \n    v4_3_latest_configuration_hosts\n    INNER JOIN v4_3_latest_configuration_vms\n        ON \n            (\n                v4_3_latest_configuration_hosts.cluster_id =\n                v4_3_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Number of Virtual Machines (DR3)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "Average uptime percent for the hosts in the specific cluster.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 7,
+        "y": 4
+      },
+      "id": 9,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "pluginVersion": "6.2.2",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "uptime_mins_percent",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the hosts in the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                v4_3_statistics_hosts_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Host Uptime (DR6)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "Average percentage of CPU usage for all hosts in the selected cluster.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 11,
+        "y": 4
+      },
+      "id": 7,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "pluginVersion": "6.2.2",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "average_cpu_used",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_cpu_percent",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "60,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Host CPU Usage (DR12)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "decimals": 2,
+      "description": "Average percentage of memory usage for all hosts in the selected cluster.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 15,
+        "y": 4
+      },
+      "id": 38,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "average_memory_used",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_memory_percent\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "60,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Host Memory Usage (DR12)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "Uptime percent of high availability virtual machines.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 4
+      },
+      "id": 5,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "uptime_mins_percent",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR13 - This query returns the\n-- uptime percent of high availability vms\n-- for the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM\n            (\n                CASE\n                    WHEN v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_3_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time    \n        SUM \n            (\n                v4_3_statistics_vms_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_3_statistics_vms_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_vms\n        ON \n            (\n                v4_3_latest_configuration_vms.vm_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we get only high availability vms\n    v4_3_latest_configuration_vms.high_availability = TRUE\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster High Availability Virtual Machine Uptime (DR13)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "Average CPU and memory peaks per host for the specific cluster.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 11,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Avg. CPU Peak",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "avg_cpu_peak",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Avg. Memory Peak",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "avg_mem_peak",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR28 - This query returns the\n-- average cpu and memory peaks per host\n-- for the specific cluster\n\nSELECT\n    host_id,\n    host_name,\n    AVG ( cpu_peak ) AS avg_cpu_peak,\n    AVG ( mem_peak ) AS avg_mem_peak\nFROM \n    (\n        -- Calculation of samples cpu and memory usage peaks\n        SELECT\n            v4_3_latest_configuration_hosts.host_id,\n            v4_3_latest_configuration_hosts.host_name,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY\n            v4_3_latest_configuration_hosts.host_id,\n            v4_3_latest_configuration_hosts.host_name,\n            DATE_TRUNC ( 'hour', v4_3_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY host_id, host_name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Summary of Host Resource Peaks (DR28)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "CPU and memory usage for the top 5 busiest hosts.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 13,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Avg. CPU Usage",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_usage_percent_avg",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max CPU Usage",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_usage_percent_max",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Avg. Memory Usage",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_usage_percent_avg",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max Memory Usage",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_usage_percent_max",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR23 - This query returns the\n-- cpu and memory usage for the\n-- top 5 busiest hosts in the specific cluster\n\nSELECT\n    v4_3_latest_configuration_hosts.host_id,\n    v4_3_latest_configuration_hosts.host_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    v4_3_latest_configuration_hosts.host_id,\n    v4_3_latest_configuration_hosts.host_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Top 5 Busiest Hosts (DR23)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "Average number of CPU Cores for the hosts and virtual machines in the specific cluster.",
+      "fill": 1,
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "id": 25,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR14 - This query returns the\n-- average number of CPU Cores and memory\n-- for the hosts and vms in the specific cluster.\n\n-- Hosts total CPU cores\nSELECT\n    NOW () AS time,\n    'Total Hosts CPU Cores' AS entity,\n    -- Calculation of samples total hosts CPU cores \n    SUM \n        (\n            COALESCE ( v4_3_configuration_history_hosts.number_of_cores, 0 ) \n            *\n            minutes_in_status\n        ) \n    / SUM ( minutes_in_status ) AS cpu_cores\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_configuration_history_hosts\n        ON \n            (\n                v4_3_configuration_history_hosts.history_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_configuration_version\n            )\n    INNER JOIN v4_3_latest_configuration_hosts AS a\n        ON \n            (\n                a.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND a.cluster_id = CAST ( '$cluster_id' AS UUID )\n\nUNION ALL\n\n-- Vms total CPU cores \nSELECT\n    NOW () AS time,\n    'Total VMs CPU Cores' AS entity,\n    SUM ( nested_query.cpu_cores ) AS cpu_cores_total\nFROM \n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of samples vms CPU cores \n            SUM \n                (\n                    COALESCE ( v4_3_configuration_history_vms.cpu_per_socket, 0 )\n                    *\n                    COALESCE ( v4_3_configuration_history_vms.number_of_sockets, 0 )\n                    *\n                    minutes_in_status\n                ) / SUM ( minutes_in_status ) AS cpu_cores\n        FROM \n            v4_3_statistics_vms_resources_usage_samples\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.history_id =\n                        v4_3_statistics_vms_resources_usage_samples.vm_configuration_version\n                    )\n            INNER JOIN v4_3_latest_configuration_vms AS a\n                ON \n                    (\n                        a.vm_id =\n                        v4_3_statistics_vms_resources_usage_samples.vm_id\n                    )\n        WHERE\n            -- Here we get only active vms\n            v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND a.cluster_id = CAST ( '$cluster_id' AS uuid )\n        GROUP BY a.vm_id\n    ) AS nested_query",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Cluster Virtual Machine CPU Overcommit (DR14)",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": true,
+        "values": [
+          "total"
+        ]
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "Average memory for the hosts and virtual machines in the specific cluster.",
+      "fill": 1,
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR14 - This query returns the\n-- average number of CPU cores and memory\n-- for the hosts and vms in the specific cluster.\n\n-- Hosts total memory\nSELECT\n    NOW () AS time,\n    'Total Hosts Memory' AS entity,\n    -- Calculation of samples total hosts memory \n    SUM (\n        COALESCE ( v4_3_configuration_history_hosts.memory_size_mb, 0 ) \n        *\n        minutes_in_status\n        ) \n    / SUM ( minutes_in_status ) AS mem_avg\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_configuration_history_hosts\n        ON \n            (\n                v4_3_configuration_history_hosts.history_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_configuration_version\n            )\n    INNER JOIN v4_3_latest_configuration_hosts AS a\n        ON \n            (\n                a.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND a.cluster_id = CAST ( '$cluster_id' AS UUID )\n\nUNION ALL\n\n-- Vms total memory\nSELECT\n    NOW () AS time,\n    'Total VMs Memory' AS entity,\n    SUM ( nested_query.mem_avg ) AS mem_avg_total\nFROM \n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of samples vms memory  \n            SUM \n                (\n                    COALESCE ( v4_3_configuration_history_vms.memory_size_mb, 0 ) \n                    *\n                    minutes_in_status\n                ) / SUM ( minutes_in_status ) AS mem_avg\n        FROM \n            v4_3_statistics_vms_resources_usage_samples\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.history_id =\n                        v4_3_statistics_vms_resources_usage_samples.vm_configuration_version\n                    )\n            INNER JOIN v4_3_latest_configuration_vms AS a\n                ON \n                    (\n                        a.vm_id =\n                        v4_3_statistics_vms_resources_usage_samples.vm_id\n                    )\n        WHERE\n            -- Here we get only active vms\n            v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND a.cluster_id = CAST ( '$cluster_id' AS uuid )\n        GROUP BY a.vm_id\n) AS nested_query",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Cluster Virtual Machine Memory Overcommit (DR14)",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": true,
+        "values": [
+          "total"
+        ]
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "decmbytes",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays the total uptime and planned downtime percentage for the 5 high availability virtual machines that have the lowest uptime.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "id": 28,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "VM Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Uptime",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "uptime_percent",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Planned Downtime",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "planned_downtime_percent",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR20 - This query returns for 5 high availability vms,\n-- that have the least uptime percent,\n-- the total uptime and planned downtime percent per vm.\n\nSELECT\n    v4_3_latest_configuration_vms.vm_id, \n    v4_3_latest_configuration_vms.vm_name,\n    (\n        -- Calculation of samples vm uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_3_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples vm planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_vms_resources_usage_samples.vm_status IN ( 0, 2 )\n                        THEN COALESCE ( v4_3_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent\nFROM \n    v4_3_statistics_vms_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_vms\n        ON \n            (\n                v4_3_latest_configuration_vms.vm_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_3_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )\n    -- Here we get only high availability vms\n    AND v4_3_latest_configuration_vms.high_availability = TRUE\nGROUP BY\n    -- For the calculations to be per vm \n    v4_3_latest_configuration_vms.vm_id,\n    v4_3_latest_configuration_vms.vm_name\nORDER BY uptime_percent ASC\nLIMIT 5",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top Five High Availability Virtual Machines Downtime (DR20)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays the total uptime and planned and unplanned downtime percentage for the 5 hosts that have the lowest uptime.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "id": 30,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Uptime",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "uptime_percent",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Planned Downtime",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "planned_downtime_percent",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Unplanned Downtime",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "unplanned_downtime_percent",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percent"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR18 - This query returns for 5 hosts,\n-- that have the least uptime percent, \n-- the total uptime, planned and unplanned \n-- downtime percent per host.\n\nSELECT\n    v4_3_latest_configuration_hosts.host_id,\n    v4_3_latest_configuration_hosts.host_name,\n    (\n        -- Calculation of samples host uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples host planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        -- Calculation of samples host unplanned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        SUM ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    -- For the calculations to be per host\n    v4_3_latest_configuration_hosts.host_id,\n    v4_3_latest_configuration_hosts.host_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top Five Hosts Downtime (DR18)",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "Host",
+    "VM",
+    "Cluster",
+    "HA",
+    "CPU",
+    "Memory",
+    "Downtime",
+    "Uptime"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Canter",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Cluster Dashboard",
+  "uid": "ClusterDashboard",
+  "version": 1
+}
