@@ -50,7 +50,7 @@ Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSou
 
 Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP ):
 
-![Grafana oVirt DataSource](images/ovirt-dwh-datasource.png)
+<img src="https://raw.github.com/michalgutowski/ovirt-grafana/main/images/ovirt-dwh-datasource.png" width="450"/>
 
 ### Importing Dashboards from oVirt 4.4
 Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards
