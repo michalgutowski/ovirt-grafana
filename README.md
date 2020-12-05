@@ -57,6 +57,9 @@ Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/
 
 You can now import them in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
+Example oVirt Cluster Dashboard in Grafana:
+![Grafana oVirt DataSource](images/ovirt-cluster-dashboard.png)
+
 ### Testing the integration with ready to use Grafana Docker container
 If you would like to quickly test the integration you can use the grafana-container definition available in this repository.
 
