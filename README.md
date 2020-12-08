@@ -35,12 +35,22 @@ Reload postgres service
 
 ### Installing Grafana
 You can install Grafana directly on the oVirt Engine machine (this is how it's done in oVirt 4.4) or on a separate machine. 
-Following steps shows how you can install Grafana on a separate Oracle Linux 7 server. 
+Following steps shows how you can install Grafana on a separate Oracle Linux 7 server.
+
 Note: Oracle provides Grafana in the OLCNE yum repository - you only need to install repository definition package to pickup Grafana and it's dependencies. 
+
+Preparing yum:
 ```
 # yum install oraclelinux-release-el7
 # yum install oracle-olcne-release-el7
 # yum-config-manager --enable ol7_optional_latest ol7_olcne12
+```
+**(Optional)** Configure yum so that only Grafana is picked up from OLCNE repo:
+```
+# yum-config-manager --save --setopt=ol7_olcne12.includepkgs=grafana*
+```
+Installing and enabling Grafana service:
+```
 # yum install grafana
 # systemctl enable --now grafana-server
 ```
