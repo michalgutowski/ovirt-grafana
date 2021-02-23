@@ -67,7 +67,7 @@ Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/
 
 ```git clone https://github.com/oVirt/ovirt-dwh.git```
 
-As of February '21 the oVirt 4.4 Dashboards are using 4.4 compatibilty view mode therefore we need to find and replace all v4_4 references with v4_3 in all dashboard json files. This can be done with a quick one-liner:
+As of February '21 the oVirt 4.4 Dashboards are using 4.4 compatibilty view mode. Because we want to use it with oVirt 4.3 we need to find and replace all v4_4 references with v4_3 in all dashboard json files. This can be done with a quick one-liner:
 
 ```find . -type f -name "*dashboard.json" -exec sed -i -e 's/v4_4_/v4_3_/g' {} \;```
 
