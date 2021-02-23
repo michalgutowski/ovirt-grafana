@@ -56,16 +56,22 @@ Installing and enabling Grafana service:
 ```
 
 ### Adding oVirt DWH database as Data Source in Grafana
-Login to Grafana (default port 3000) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button.
+Login to Grafana (default port 3000, default user/pass: admin/admin) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button.
 
 Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP ):
 
 <img src="https://raw.github.com/michalgutowski/ovirt-grafana/main/images/ovirt-dwh-datasource.png" width="450"/>
 
 ### Importing Dashboards from oVirt 4.4
-Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards
+Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards or simply clone the repository:
 
-You can now import them in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
+```git clone https://github.com/oVirt/ovirt-dwh.git```
+
+As of February '21 the oVirt 4.4 Dashboards are using 4.4 compatibilty view mode therefore we need to find and replace all v4_4 references with v4_3 in all dashboard json files. This can be done with a quick one-liner:
+
+```find . -type f -name "*dashboard.json" -exec sed -i -e 's/v4_4_/v4_3_/g' {} \;```
+
+You can now import dashboards in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
 Example oVirt Cluster Dashboard in Grafana:
 ![Grafana oVirt DataSource](images/ovirt-cluster-dashboard.png)
