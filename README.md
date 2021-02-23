@@ -22,7 +22,7 @@ Remove the file you used to grant permissions:
 ```
 Exit the postgres user shell by pressing `Ctrl+d`
 
-Add the following lines for the newly created user to /var/opt/rh/rh-postgresql10/lib/pgsql/data/pg_hba.conf preceding the line beginning local all all
+Add the following lines for the newly created user to ```/var/opt/rh/rh-postgresql10/lib/pgsql/data/pg_hba.conf``` preceding the line beginning local all all
 ```
 host    ovirt_engine_history grafana 0.0.0.0/0               md5
 host    ovirt_engine_history grafana ::0/0                   md5
@@ -63,13 +63,13 @@ Select **PostgreSQL** source and use the following settings (adjust the Host IP 
 <img src="https://raw.github.com/michalgutowski/ovirt-grafana/main/images/ovirt-dwh-datasource.png" width="450"/>
 
 ### Importing Dashboards from oVirt 4.4
-Download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards or simply clone the repository:
+Manually download Grafana Dashboards from oVirt 4.4 repository: https://github.com/oVirt/ovirt-dwh/tree/master/packaging/conf/grafana-dashboards or simply clone the repository:
 
-```git clone https://github.com/oVirt/ovirt-dwh.git```
+```$ git clone https://github.com/oVirt/ovirt-dwh.git```
 
 As of February '21 the oVirt 4.4 Dashboards are using 4.4 compatibilty view mode. Because we want to use it with oVirt 4.3 we need to find and replace all v4_4 references with v4_3 in all dashboard json files. This can be done with a quick one-liner:
 
-```find . -type f -name "*dashboard.json" -exec sed -i -e 's/v4_4_/v4_3_/g' {} \;```
+```$ find . -type f -name "*dashboard.json" -exec sed -i -e 's/v4_4_/v4_3_/g' {} \;```
 
 You can now import dashboards in Grafana by naviating to `Create` -> `Import` and clicking on `Upload .json file` or by simply pasting JSON content.
 
