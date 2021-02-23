@@ -58,7 +58,7 @@ Installing and enabling Grafana service:
 ### Adding oVirt DWH database as Data Source in Grafana
 Login to Grafana (default port 3000, default user/pass: admin/admin) and navigate to `Configuration` -> `DataSources` and click on `Add Data Source` button.
 
-Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP ):
+Select **PostgreSQL** source and use the following settings (adjust the Host IP address to match your oVirt Engine IP but keep **oVirt DWH** as a name ):
 
 <img src="https://raw.github.com/michalgutowski/ovirt-grafana/main/images/ovirt-dwh-datasource.png" width="450"/>
 
